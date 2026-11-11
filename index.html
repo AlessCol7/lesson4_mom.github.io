@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Beauty of Stories | Past Tense English</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Playfair+Display:wght@500;600;700&display=swap">
+<style>
+:root{
+  --bg:#FBF6F4; --grid:#F1E5E5; --panel:#FFFFFF; --panel2:#F8EEEE; --ink:#493D42; --mute:#8B7A80; --line:#E8D5D9;
+  --c1:#C58F9C; --c2:#A96F80; --c3:#D8B8BE; --good:#718B78; --bad:#B96C72; --warn:#B69A86; --blue:#9B879B;
+  --dark:#493D42;
+  --display:'Playfair Display',Georgia,serif; --body:'Nunito',system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg)}
+body{margin:0;color:var(--ink);font:400 17px/1.55 var(--body);background:var(--bg);
+  background-image:radial-gradient(var(--grid) 1px,transparent 1px);background-size:22px 22px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 56px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+.wrap{max-width:940px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.5;text-wrap:balance;margin:0}
+h2{font-size:14px;color:var(--c2)} h3{font-size:11px;color:var(--c1)}
+p{margin:10px 0} a{color:var(--c1)} button{font:inherit;color:inherit}
+.hud{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:2px solid var(--line);padding:10px 0;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px}
+.logo{display:flex;align-items:center;gap:10px;font:600 18px var(--display);letter-spacing:.02em}
+.stat{display:flex;flex-direction:column;gap:2px}
+.stat span{font:800 10px var(--body);letter-spacing:.12em;color:var(--mute)}
+.stat b{font:700 16px var(--body);color:var(--c2);font-variant-numeric:tabular-nums}
+.row10{display:flex;gap:2px}
+.row10 i{width:14px;height:14px;background:#F1E5E5;border:1px solid var(--line)}
+.row10 i.f{border-color:transparent;box-shadow:inset 2px 2px 0 rgba(255,255,255,.35),inset -2px -2px 0 rgba(0,0,0,.25)}
+.f0{background:var(--c1)!important}.f1{background:var(--c2)!important}.f2{background:var(--c3)!important}.f3{background:var(--good)!important}.f4{background:var(--bad)!important}.f5{background:var(--blue)!important}.f6{background:var(--warn)!important}
+.row10.flash{animation:flash .6s steps(2) 2}
+@keyframes flash{50%{opacity:.2}}
+.tbtn{margin-left:auto;background:transparent;border:2px dashed var(--c3);color:var(--c3);padding:8px 12px;border-radius:12px;font:800 10px var(--body);letter-spacing:.06em;cursor:pointer;min-height:40px}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:12px 0 6px}
+.tab{flex:0 0 auto;background:var(--panel);border:2px solid var(--line);border-radius:12px;color:var(--mute);padding:10px 12px;font:800 10px var(--body);letter-spacing:.06em;cursor:pointer;min-height:44px;line-height:1.4}
+.tab[aria-current="true"]{background:var(--c2);border-color:var(--c2);color:#1a1400}
+.tab[disabled]{opacity:.4;cursor:not-allowed}
+.card{background:var(--panel);border:2px solid var(--line);border-radius:16px;padding:20px;margin:12px 0;min-width:0}
+.mino{display:inline-grid;grid-template-columns:repeat(var(--cols),var(--u));gap:2px;vertical-align:middle}
+.mino i{width:var(--u);height:var(--u)}
+.mino i.on{background:var(--mc);box-shadow:inset 2px 2px 0 rgba(255,255,255,.35),inset -2px -2px 0 rgba(0,0,0,.25)}
+.head{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.btn{background:var(--c2);color:#fff;border:0;border-radius:12px;padding:14px 18px;font:700 12px var(--body);letter-spacing:.04em;cursor:pointer;min-height:46px;box-shadow:0 3px 0 #8F6470}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #a58400}
+.btn.alt{background:var(--panel2);color:var(--ink);box-shadow:0 4px 0 #0e1430;border:2px solid var(--line)}
+.btn.sm{padding:10px 12px;font-size:9px;min-height:40px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;align-items:center}
+:focus-visible{outline:3px solid var(--c2);outline-offset:2px}
+.inp,.ta,select.inp{font:700 19px var(--body);background:#FFFBFA;color:var(--ink);border:2px solid var(--line);border-radius:12px;padding:10px 12px;width:100%;min-width:0}
+.inp{max-width:260px}
+select.inp{max-width:100%;font-size:16px}
+.ta{font-weight:600;font-size:18px;min-height:110px;resize:vertical;line-height:1.5}
+.inp.good{border-color:var(--good);color:var(--good)}
+.inp.bad{border-color:var(--bad)}
+.inl{display:inline-block;width:12ch;max-width:100%;padding:4px 8px;font-size:19px;vertical-align:baseline}
+.msg{border-radius:12px;padding:10px 14px;margin:12px 0 0;font-weight:600;border-left:6px solid var(--c1);background:var(--panel2)}
+.msg.ok{border-color:var(--good)}.msg.no{border-color:var(--bad)}.msg.info{border-color:var(--c1)}
+.note{color:var(--mute);font-size:14px}
+.blk{--bc:var(--c1);background:var(--bc);color:var(--dark);padding:10px 14px;border-radius:2px;box-shadow:inset 4px 4px 0 rgba(255,255,255,.35),inset -4px -4px 0 rgba(0,0,0,.25);min-width:0;display:inline-block}
+.blk small{display:block;font:800 9px var(--body);letter-spacing:.08em;opacity:.8;margin-bottom:5px}
+.blk b{font:800 19px var(--body);overflow-wrap:anywhere}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:12px}
+.mini{background:var(--panel2);border-left:6px solid var(--bc,var(--line));border-radius:12px;padding:12px 14px;min-width:0}
+.mini h3{margin-bottom:8px}.mini p{margin:6px 0}
+.tray{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.tb{background:var(--panel2);border:2px solid var(--line);border-radius:3px;padding:10px 16px;font:800 19px var(--body);cursor:pointer;color:var(--ink);min-height:48px}
+.tb[disabled]{opacity:.3;cursor:default}
+.tb.sel{border-color:var(--c2);color:var(--c2)}
+.tb.done{border-color:var(--good);color:var(--good);opacity:.8}
+.built{display:flex;gap:8px;flex-wrap:wrap;min-height:76px;border:2px dashed var(--line);border-radius:12px;padding:10px;align-items:flex-end}
+.opts{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 10px}
+.opt{background:var(--panel2);border:2px solid var(--line);border-radius:12px;padding:8px 14px;font-weight:700;cursor:pointer;min-height:42px;text-align:left}
+.opt.right{border-color:var(--good);color:var(--good)}
+.opt.wrong{border-color:var(--bad);color:var(--bad)}
+.opt[disabled]{cursor:default}
+.qitem{border-top:1px solid var(--line);padding-top:12px;margin-top:12px}
+.qitem.first{border-top:0;margin-top:0;padding-top:0}
+.q{font-weight:800;margin:6px 0 10px}
+.sl{background:#FFFBFA;border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.lt{display:inline-block;min-width:1ch;font:800 22px var(--body)}
+.lt.ok{color:var(--good)}.lt.no{color:var(--bad);text-decoration:underline}.lt.gap{color:var(--mute)}
+.hint{min-height:28px;margin-top:6px}
+.lights{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:6px}
+.lights li{display:flex;gap:10px;align-items:center;font-weight:600}
+.lights i{width:16px;height:16px;border-radius:2px;background:#F1E5E5;border:2px solid var(--line);flex:0 0 auto}
+.lights li.ok i{background:var(--good);border-color:var(--good)}
+.words{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px}
+.wc{background:var(--panel2);border-radius:12px;padding:14px;min-width:0}
+.wc .wd{font:800 21px var(--body);color:var(--c1)}
+.wc .ta{min-height:76px;font-size:16px;margin-top:8px}
+.frame{background:#FFFBFA;border:2px solid var(--line);border-left:6px solid var(--c2);border-radius:12px;padding:10px 14px;margin:8px 0}
+.frame b{color:var(--c2)}
+.chat{display:grid;gap:8px;margin:10px 0}
+.bub{max-width:88%;padding:10px 14px;border-radius:10px;background:var(--panel2);border:1px solid var(--line);font-weight:600}
+.bub.me{justify-self:end;background:#16304a;border-color:var(--c1)}
+.bub small{display:block;font:800 9px var(--body);letter-spacing:.08em;color:var(--mute);margin-bottom:4px}
+.bub select{width:100%;font:700 16px var(--body);background:#FFFBFA;color:var(--ink);border:2px solid var(--line);border-radius:12px;padding:8px;margin-top:4px}
+.bub select.good{border-color:var(--good)}.bub select.bad{border-color:var(--bad)}
+.rate{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.rate label{display:block;font-weight:800;margin-bottom:4px}
+.rate select{width:100%;font:700 17px var(--body);background:#FFFBFA;color:var(--ink);border:2px solid var(--line);border-radius:12px;padding:8px}
+.timer{font:400 26px var(--display);color:var(--c2);font-variant-numeric:tabular-nums}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{background:var(--panel2);border:2px solid var(--line);border-radius:12px;padding:8px 14px;font-weight:800;cursor:pointer;min-height:40px}
+.chip[aria-pressed="true"]{border-color:var(--c2);color:var(--c2)}
+.fall{position:absolute;top:-60px;animation:drop 6s linear infinite;opacity:.9}
+@keyframes drop{to{transform:translateY(520px)}}
+.hero{position:relative;overflow:hidden}.hero>*:not(.fall){position:relative;z-index:1}
+.teacher{border:2px dashed var(--c3);border-radius:16px;background:var(--panel);padding:18px;margin:12px 0}
+.teacher h3{color:var(--c3);margin:16px 0 6px}.teacher h3:first-child{margin-top:0}
+.teacher ul{margin:6px 0;padding-left:20px}
+.rep{width:100%;min-height:240px;background:#FFFBFA;color:var(--ink);border:2px solid var(--line);border-radius:12px;padding:10px;font:14px/1.5 ui-monospace,Menlo,Consolas,monospace}
+.stars{font-size:34px;color:var(--c2);letter-spacing:.2em}
+.big{font:600 22px/1.45 var(--display);text-wrap:balance}
+.shk{animation:shk .25s}
+@keyframes shk{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.fld label{display:block;font-weight:800;margin-bottom:6px}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:40;background:var(--good);color:var(--dark);font:700 12px var(--body);letter-spacing:.04em;padding:12px 16px;border-radius:12px;opacity:0;pointer-events:none;transition:opacity .2s;max-width:calc(100vw - 32px);text-align:center}
+#toast.show{opacity:1}#toast.info{background:var(--c1)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hud">
+    <div class="logo" id="logo"></div>
+    <div class="stat"><span>POINTS</span><b id="score">0</b></div>
+    <div class="stat"><span>MILESTONES</span><b id="lines">0</b></div>
+    <div class="row10" id="row" aria-label="Progress to the next line"></div>
+    <button class="tbtn" id="tbtn" aria-expanded="false">TEACHER NOTES</button>
+  </header>
+  <nav class="tabs" id="tabs" aria-label="Levels"></nav>
+  <div id="tpanel" hidden></div>
+  <main id="stage"></main>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+/* ================= EDIT HERE: all the lesson content ================= */
+
+/* L1: vocabulary. [word, Romanian, example] */
+var VOCAB=[
+  ["Skincare","--c1",[["cleanser","demachiant","I bought a new cleanser last week."],["moisturiser","cremă hidratantă","I used a rich moisturiser yesterday."],["sunscreen","cremă de protecție solară","I forgot my sunscreen on holiday."],["serum","ser","I tried a vitamin C serum last month."]]],
+  ["Make-up","--c2",[["foundation","fond de ten","I changed my foundation because the old one looked too dark."],["mascara","rimel","I wore mascara to the party."],["lipstick","ruj","She chose a beautiful red lipstick."],["shade","nuanță","I found the perfect shade for my skin."]]],
+  ["Beauty appointments","--c3",[["appointment","programare","I had a hair appointment on Friday."],["haircut","tunsoare","I loved my new haircut."],["treatment","tratament","I tried a facial treatment last week."],["stylist","stilist","The stylist recommended a shorter style."]]],
+  ["Feelings & experiences","--good",[["confident","încrezătoare","I felt confident after the makeover."],["relaxed","relaxată","I felt relaxed after the massage."],["disappointed","dezamăgită","I was disappointed with the result."],["delighted","încântată","I was delighted with my new look."]]],
+  ["Everyday reactions","--bad",[["suit","a se potrivi","The colour suited me very well."],["recommend","a recomanda","My friend recommended this cream."],["improve","a îmbunătăți","My skin improved after a few weeks."],["regret","a regreta","I regretted cutting my hair so short."]]]
+];
+
+/* L2: word order. [chunk, role]. Roles: S V O P T A */
+var ROLE2={
+   S:{n:"WHO",c:"--c1",h:"Start with WHO: the subject."},
+   A:{n:"DETAIL",c:"--blue",h:"Add a useful detail if you need one."},
+   V:{n:"PAST VERB",c:"--c2",h:"Use the past form of the verb: tried, bought, felt, went."},
+   O:{n:"WHAT",c:"--c3",h:"Add what happened or what the person experienced."},
+   P:{n:"WHERE",c:"--good",h:"Add the place if it is useful."},
+   T:{n:"WHEN",c:"--warn",h:"Add a time expression: yesterday, last week, on Saturday."}
+};
+var ORDER=[
+  [["I","S"],["tried","V"],["a new face mask","O"],["last weekend","T"]],
+  [["She","S"],["bought","V"],["a lovely lipstick","O"],["yesterday","T"]],
+  [["I","S"],["felt","V"],["much more confident","O"],["after the appointment","T"]],
+  [["My friend","S"],["recommended","V"],["this moisturiser","O"],["last month","T"]],
+  [["We","S"],["went","V"],["to a beauty salon","P"],["on Saturday","T"]],
+  [["The treatment","S"],["made","V"],["my skin","O"],["feel softer","T"]],
+  [["I","S"],["did not like","V"],["the colour","O"],["at first","T"]]
+];
+/* mc items: [prompt, options, correctIndex, explanation] */
+var ORDERMC=[
+  ["Choose the correct sentence.",["I like coffee very much.","I like very much coffee.","Very much I like coffee."],0,"Do not put a word between the verb and its object: verb + object, then the extra word."],
+  ["Choose the correct sentence.",["She always is late.","She is always late.","Always she late is."],1,"With am / is / are, the frequency word goes AFTER the verb to be."],
+  ["Choose the correct sentence.",["I went yesterday to the museum.","I went to the museum yesterday.","Yesterday to the museum I went."],1,"Place first, time last: I went (where) (when)."],
+  ["Choose the correct sentence.",["Do you know where is the station?","Do you know where the station is?","Do you know where does the station is?"],1,"Inside a longer question the word order goes back to normal: where + subject + verb."],
+  ["Choose the correct sentence.",["Can you tell me how much costs it?","Can you tell me how much it costs?","Can you me tell how much it costs?"],1,"After 'tell me' use normal order: how much + it + costs."]
+];
+
+/* L3: polite frames */
+var POLITE=[
+  ["Describing a positive feeling","I felt ... / I was ...","I felt relaxed and confident after the treatment."],
+  ["Describing a negative feeling","I felt ... because ...","I felt disappointed because the colour was too dark."],
+  ["Talking about a change","I used to ..., but then ...","I used to wear dark make-up, but then I changed my style."],
+  ["Explaining an experience","I tried ... and ...","I tried a new skincare routine and I loved it."],
+  ["Giving an opinion","I thought ... because ...","I thought the treatment was wonderful because it felt relaxing."],
+  ["Adding detail","At first ... / In the end ...","At first I felt nervous, but in the end I was delighted."]
+];
+var POLMC=[
+  ["You want to describe yesterday's appointment.",["I go to the salon yesterday.","I went to the salon yesterday.","I gone to the salon yesterday."],1,"For a finished past action, use went: I went."],
+  ["You want to describe how you felt.",["I felt relaxed after the massage.","I feel relaxed yesterday.","I was feel relaxed."],0,"Felt is the past form of feel."],
+  ["You want to explain why you liked a product.",["I liked it because it smelled lovely.","I like it because it smelled lovely yesterday.","I liked because smelled lovely."],0,"Use a complete phrase: I liked it because ..."],
+  ["You want to describe a result.",["The cream make my skin softer.","The cream made my skin softer.","The cream did made my skin softer."],1,"Made is the past form of make. Do not add did in a positive statement."],
+  ["You want to talk about a purchase.",["I buyed a new lipstick.","I bought a new lipstick.","I have buy a new lipstick yesterday."],1,"Bought is the past form of buy."]
+];
+/* gaps: {pre, post, ans:[accepted], why} */
+var POLGAP=[
+  {pre:"Yesterday, I",post:"(try) a new face mask.",ans:["tried"],why:"Regular past verbs usually end in -ed: try → tried."},
+  {pre:"Last week, she",post:"(buy) a new foundation.",ans:["bought"],why:"Buy is irregular: buy → bought."},
+  {pre:"I",post:"(feel) nervous before the appointment.",ans:["felt"],why:"Feel is irregular: feel → felt."},
+  {pre:"The stylist",post:"(make) me feel confident.",ans:["made"],why:"Make is irregular: make → made."},
+  {pre:"We",post:"(go) to the salon on Saturday.",ans:["went"],why:"Go is irregular: go → went."},
+  {pre:"I did not",post:"(like) the colour at first.",ans:["like"],why:"After did not, use the base form: did not like."}
+];
+
+/* L4: questions */
+var ROLE4={
+  Q:{n:"QUESTION WORD",c:"--c2",h:"Start with the question word (Where, What time, Why ...)."},
+  H:{n:"HELPER",c:"--c1",h:"Next the helper: do, does, did, is, are, have, could ...",first:"A yes/no question starts with the helper (Have, Could, Do ...)."},
+  S:{n:"WHO / WHAT",c:"--c3",h:"Then the subject."},
+  V:{n:"VERB",c:"--good",h:"Then the main verb."},
+  R:{n:"THE REST",c:"--warn",h:"The rest of the sentence goes last."}
+};
+var QORDER=[
+  [["What","Q"],["did","H"],["you","S"],["buy","V"],["yesterday","R"]],
+  [["Where","Q"],["did","H"],["she","S"],["go","V"],["for her treatment","R"]],
+  [["How","Q"],["did","H"],["you","S"],["feel","V"],["afterwards","R"]],
+  [["Why","Q"],["did","H"],["they","S"],["change","V"],["the product","R"]],
+  [["Did","H"],["you","S"],["enjoy","V"],["the facial","R"]],
+  [["Was","H"],["the","S"],["treatment","V"],["comfortable","R"]]
+];
+var QMC=[
+  ["Choose the correct past question.",["Where did you went?","Where did you go?","Where you did go?"],1,"After did, use the base verb: did you go."],
+  ["Choose the correct question.",["Did she bought it?","Did she buy it?","Does she bought it?"],1,"After did, use buy, not bought."],
+  ["Choose the correct question.",["How did you feel?","How you felt?","How did you felt?"],0,"Question pattern: question word + did + subject + base verb."],
+  ["Choose the correct question.",["Was the appointment relaxing?","Did the appointment was relaxing?","Was relaxing the appointment?"],0,"With was/were, put the verb before the subject."],
+  ["Choose the correct sentence.",["I didn't liked it.","I didn't like it.","I don't liked it."],1,"After didn't, use the base form: like."]
+];
+
+/* L5: connectors */
+var CONN=[
+  ["and","adds another detail","I had a facial and I bought a new moisturiser."],
+  ["but","shows contrast","I liked the colour, but it was too expensive."],
+  ["so","shows a result","I felt tired, so I went home early."],
+  ["because","gives a reason","I felt confident because I loved my new haircut."],
+  ["although","shows an unexpected contrast","Although I felt nervous, I enjoyed the treatment."],
+  ["when","connects events in time","I felt happy when I saw the result."],
+  ["before / after","puts events in order","I washed my face before I applied the mask."],
+  ["first / then / after that / finally","organises a story","First I booked an appointment. Then I chose a colour. Finally, I loved the result."]
+];
+var CONMC=[
+  ["I liked the treatment, ___ it was quite expensive.",["so","but","because"],1,"But connects two contrasting ideas."],
+  ["I felt relaxed, ___ I booked another appointment.",["so","but","although"],0,"So introduces the result."],
+  ["I bought the cream ___ my friend recommended it.",["so","because","but"],1,"Because gives the reason."],
+  ["___ I was nervous, I enjoyed the experience.",["Because","So","Although"],2,"Although introduces a contrast."],
+  ["I felt more confident ___ I saw the result.",["when","because","but"],0,"When connects the feeling to the moment."],
+  ["First I cleansed my face. ___, I applied moisturiser.",["After that","Because","Although"],0,"After that shows the next step."]
+];
+
+/* L6: dialogues. {t:title, l:[[who,text] or ["Y",[opts],correct,why]]} */
+var DIAL=[
+ {t:"At the beauty salon",l:[["Stylist","Hello! What would you like to do today?"],["Y",["I had a haircut last month and I loved it.","I have haircut last month and loved.","I haircut last month."],0,"Use had for a finished past experience."],["Stylist","What did you like about it?"],["Y",["It was easy to style and it suited me.","It suit me and easy style.","It is suit me."],0,"Use was and suited to describe the past."],["Stylist","Would you like something similar?"],["Y",["Yes, but I'd like to try a softer colour this time.","Yes, I tried softer colour yesterday.","I like soft."],0,"A complete answer can connect an opinion and a new idea."]]},
+ {t:"A skincare experience",l:[["Friend","Have you tried that new moisturiser?"],["Y",["Yes, I tried it last week and my skin felt softer.","Yes, I try it last week.","I tried last week it."],0,"Use tried and felt for finished past actions."],["Friend","Did you like it?"],["Y",["Yes, I did. It smelled lovely.","Yes, I liked it did.","Yes, I do liked."],0,"Short answer: Yes, I did. Then add a detail."],["Friend","Would you buy it again?"],["Y",["Definitely, because it worked really well for me.","Definitely because work good.","I buy again yesterday."],0,"Give a reason with because."]]},
+ {t:"Talking about make-up",l:[["Friend","Your make-up looked lovely yesterday. What did you use?"],["Y",["I used a new foundation and a soft pink lipstick.","I use new foundation yesterday.","I was use foundation."],0,"Use used for a finished action."],["Friend","Did you enjoy getting ready?"],["Y",["Yes, I did. I felt confident.","Yes, I enjoyed did.","I feel confident yesterday."],0,"Use felt, the past form of feel."],["Friend","The colour really suited you."],["Y",["Thank you! I was happy with the result too.","Thank you, I am happy yesterday.","Thanks, result happy."],0,"Was is the past form of am/is."]]},
+ {t:"A disappointing purchase",l:[["Friend","How was the new cream you bought?"],["Y",["I was disappointed because it irritated my skin.","I am disappointed because irritated yesterday.","I disappointed it."],0,"Use was + feeling adjective, then explain why."],["Friend","Did you keep using it?"],["Y",["No, I didn't. I stopped after two days.","No, I didn't stopped.","No, I stop."],0,"After didn't, use the base form: stop."],["Friend","That's a shame."],["Y",["I know. Next time, I'll ask for a sample first.","I knew, next time sample.","I ask sample last time."],0,"A natural response can connect the experience to a future plan."]]},
+ {t:"A lovely memory",l:[["Friend","What did you do last weekend?"],["Y",["I went for a facial and then I had coffee with my sister.","I go facial and have coffee.","I went and then coffee."],0,"Use went and had for two past actions."],["Friend","How did you feel afterwards?"],["Y",["I felt relaxed and really happy.","I feel relaxed yesterday.","I was feel relaxed."],0,"Felt is the past form of feel."],["Friend","That sounds wonderful."],["Y",["It was! We had such a lovely afternoon.","It is, we have lovely afternoon.","Was wonderful afternoon."],0,"Use was and had to describe the finished afternoon."]]}
+];
+
+/* L7: writing */
+var WORDCARDS=["tried","bought","felt","enjoyed","changed","recommended","disappointed","confident","relaxed","improved"];
+
+/* L8: speaking role-plays */
+var ROLEPLAY=[
+  {t:"A beauty appointment",task:"Tell your tutor about a beauty appointment you had recently. Explain what you chose, what happened and how you felt.",frames:["Last week, I went to ...","I decided to ... because ...","At first, I felt ...","In the end, I was ... because ..."]},
+  {t:"A skincare experience",task:"Describe a skincare product you tried. Say why you tried it, what happened and whether you liked it.",frames:["I tried ... for the first time ...","I chose it because ...","After a few days, I noticed ...","I liked it / I didn't like it because ..."]},
+  {t:"A special occasion",task:"Talk about how you got ready for a special occasion in the past.",frames:["I went to ...","I decided to wear ...","I felt ... because ...","Everyone said ..."]},
+  {t:"A disappointing purchase",task:"Explain a beauty or clothing purchase that did not go as you expected.",frames:["I bought ...","I thought it would ...","Unfortunately, ...","I felt ... because ..."]},
+  {t:"A lovely memory",task:"Tell your tutor about a day when you felt especially happy, relaxed or confident.",frames:["One day, I ...","I was with ...","We decided to ...","I felt ... because ..."]}
+];
+var SPEAKCRIT=["Polite phrases","Word order","Vocabulary","Fluency"];
+
+/* L9: listening */
+var LSCRIPT="Last Saturday, I went to a beauty salon because I wanted a change. I booked an appointment with my usual stylist. First, we talked about my hair and she recommended a softer colour. At first, I felt a little nervous because I had never tried it before. Then she showed me a picture and I decided to try it. The appointment took about an hour. When I saw the result, I felt delighted. Afterwards, I went for coffee with a friend and she said the new colour really suited me. It was a lovely afternoon.";
+var LMC=[
+  ["When did the speaker go to the salon?",["On Friday","Last Saturday","On Sunday"],1],
+  ["Why did she book an appointment?",["She wanted a change","She felt ill","Her friend asked her"],0],
+  ["How did she feel at first?",["Excited","Angry","A little nervous"],2],
+  ["What did the stylist recommend?",["A shorter haircut","A softer colour","A new product"],1],
+  ["How did she feel when she saw the result?",["Disappointed","Delighted","Surprised and upset"],1]
+];
+var LGAP=[["Last Saturday, I","went","to a beauty salon."],["At first, I felt a little","nervous","."],["When I saw the result, I felt","delighted","."]];
+/* ===================================================================== */
+
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var esc=function(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+var norm=function(s){return String(s).trim().toLowerCase().replace(/[‘’`]/g,"'").replace(/\s+/g,' ')};
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function shakeEl(el){el.classList.remove('shk');void el.offsetWidth;el.classList.add('shk')}
+var stage=$('#stage');
+
+var MINO={I:[[1,1,1,1]],O:[[1,1],[1,1]],T:[[1,1,1],[0,1,0]],S:[[0,1,1],[1,1,0]],Z:[[1,1,0],[0,1,1]],J:[[1,0,0],[1,1,1]],L:[[0,0,1],[1,1,1]]};
+var MCOL={I:'var(--c1)',O:'var(--c2)',T:'var(--c3)',S:'var(--good)',Z:'var(--bad)',J:'var(--blue)',L:'var(--warn)'};
+function mino(t,u){u=u||12;var m=MINO[t],h='';m.forEach(function(r){r.forEach(function(v){h+='<i class="'+(v?'on':'')+'"></i>'})});
+  return '<span class="mino" style="--cols:'+m[0].length+';--u:'+u+'px;--mc:'+MCOL[t]+'" aria-hidden="true">'+h+'</span>'}
+$('#logo').innerHTML=mino('T',9)+'<span>THE BEAUTY OF STORIES</span>';
+
+function fresh(){return {name:"",score:0,cells:0,lines:0,sent:{},speak:{},listen:{},dial:{},log:{spell:[],order:[],mc:[],vocab:[]}}}
+var S=fresh();
+function save(){try{localStorage.setItem('phraseblocks-v1',JSON.stringify(S))}catch(e){}}
+function load(){try{var d=JSON.parse(localStorage.getItem('phraseblocks-v1')||'null');if(d&&d.log&&d.sent){S=d;S.speak=S.speak||{};S.listen=S.listen||{};S.dial=S.dial||{};S.log.vocab=S.log.vocab||[];S.log.order=S.log.order||[]}}catch(e){}}
+load();
+
+function hud(){
+  $('#score').textContent=S.score;$('#lines').textContent=S.lines;
+  var h='';for(var i=0;i<10;i++){h+='<i class="'+(i<S.cells?'f f'+(i%7):'')+'"></i>'}
+  $('#row').innerHTML=h;
+}
+var tt;
+function toast(m,t){var e=$('#toast');e.textContent=m;e.className='show '+(t||'');clearTimeout(tt);tt=setTimeout(function(){e.className=''},1700)}
+function win(p){
+  S.score+=p;S.cells++;
+  if(S.cells>=10){S.cells=0;S.lines++;S.score+=5;toast('MILESTONE REACHED! +5');var r=$('#row');r.classList.remove('flash');void r.offsetWidth;r.classList.add('flash')}
+  hud();save();
+}
+function msg(t,h){return '<div class="msg '+t+'">'+h+'</div>'}
+function letterHint(typed,target){
+  var h='',i;
+  for(i=0;i<target.length;i++){var c=typed[i];
+    if(c===undefined)h+='<span class="lt gap">_</span>';
+    else if(c===target[i])h+='<span class="lt ok">'+esc(c)+'</span>';
+    else h+='<span class="lt no">'+esc(c)+'</span>'}
+  for(i=target.length;i<typed.length;i++)h+='<span class="lt no">'+esc(typed[i])+'</span>';
+  return h;
+}
+function onEnter(el,fn){el.addEventListener('keydown',function(e){if(e.key==='Enter'&&el.tagName!=='TEXTAREA'){e.preventDefault();fn()}})}
+function noAssist(el){el.setAttribute('autocomplete','off');el.setAttribute('autocapitalize','off');el.setAttribute('autocorrect','off');el.setAttribute('spellcheck','false')}
+function lightsHtml(res){return '<ul class="lights">'+res.map(function(x){return '<li class="'+(x.ok?'ok':'')+'"><i></i>'+esc(x.label)+'</li>'}).join('')+'</ul>'}
+
+/* ---------- navigation ---------- */
+var timer=0,entered=false,cur=0;
+var LV=[["1","WORDS",L1],["2","WORD ORDER",L2],["3","POLITE",L3],["4","QUESTIONS",L4],["5","CONNECT",L5],["6","DIALOGUES",L6],["7","WRITE",L7],["8","SPEAKING",L8],["9","LISTENING",L9],["10","RESULTS",L10]];
+function tabs(){
+  $('#tabs').innerHTML=LV.map(function(l,i){return '<button class="tab" data-i="'+i+'" '+(entered?'':'disabled ')+'aria-current="'+(entered&&i===cur)+'">LVL '+l[0]+'<br>'+l[1]+'</button>'}).join('');
+  $$('.tab').forEach(function(b){b.onclick=function(){go(+b.dataset.i)}});
+}
+function stopAll(){clearInterval(timer);timer=0;try{window.speechSynthesis&&window.speechSynthesis.cancel()}catch(e){}}
+function go(i){if(!entered)return;stopAll();cur=i;tabs();LV[i][2]();window.scrollTo(0,0)}
+function nextCard(label,i){return '<section class="card"><div class="row" style="margin:0"><button class="btn" data-go="'+i+'">'+label+'</button></div></section>'}
+function bindGo(){$$('[data-go]').forEach(function(b){b.onclick=function(){go(+b.dataset.go)}})}
+
+/* ---------- reusable: multiple choice with instant feedback ---------- */
+function mcBlock(box,items,tag,intro){
+  var done=0;
+  box.innerHTML=(intro||'')+'<div id="mcl"></div><p class="note" id="mcc">0 of '+items.length+' answered</p>';
+  var l=box.querySelector('#mcl');
+  l.innerHTML=items.map(function(it,i){
+    return '<div class="qitem'+(i===0?' first':'')+'" data-q="'+i+'"><div class="q">'+(i+1)+'. '+esc(it[0]).replace('___','<b>_____</b>')+'</div><div class="opts">'+
+    it[1].map(function(o,oi){return '<button class="opt" data-o="'+oi+'">'+esc(o)+'</button>'}).join('')+'</div><div class="fb"></div></div>'}).join('');
+  $$('.qitem',l).forEach(function(row){
+    var it=items[+row.dataset.q],locked=false,tries=0;
+    $$('.opt',row).forEach(function(b){b.onclick=function(){
+      if(locked)return;var n=+b.dataset.o;
+      if(n===it[2]){locked=true;b.classList.add('right');$$('.opt',row).forEach(function(x){x.disabled=true});
+        if(tries===0)win(1);done++;box.querySelector('#mcc').textContent=done+' of '+items.length+' answered';
+        $('.fb',row).innerHTML=msg('ok',(tries===0?'Correct! ':'Yes, this one. ')+esc(it[3]||''))}
+      else{tries++;b.classList.add('wrong');b.disabled=true;shakeEl(b);
+        S.log.mc.push({item:tag+': '+it[0],typed:it[1][n],ans:it[1][it[2]]});save();
+        $('.fb',row).innerHTML=msg('no','Not quite. Try another one.')}
+    }});
+  });
+}
+
+/* ---------- reusable: chip builder ---------- */
+function chipBuilder(box,items,roles,title,prog){
+  var k=0;
+  function draw(){
+    if(k>=items.length){box.innerHTML='<h3>'+title+'</h3><p class="big" style="margin:12px 0">All '+items.length+' built!</p>';return}
+    var it=items[k],placed=0;
+    box.innerHTML='<h3>'+title+'</h3><p class="note">'+prog+' '+(k+1)+' of '+items.length+'. Tap the blocks in the right order.</p>'+
+    '<div class="built" id="bt"></div><div class="tray" id="tr">'+shuffle(it.map(function(c,i){return {t:c[0],i:i}})).map(function(c){return '<button class="tb" data-i="'+c.i+'">'+esc(c.t)+'</button>'}).join('')+'</div><div id="gf"></div>';
+    $$('#tr .tb',box).forEach(function(b){b.onclick=function(){
+      var idx=+b.dataset.i;
+      if(idx===placed){
+        var info=roles[it[idx][1]];
+        $('#bt',box).insertAdjacentHTML('beforeend','<div class="blk" style="--bc:var('+info.c+')"><small>'+info.n+'</small><b>'+esc(it[idx][0])+'</b></div>');
+        b.disabled=true;b.classList.add('done');placed++;win(1);$('#gf',box).innerHTML='';
+        if(placed===it.length){
+          var s=it.map(function(c){return c[0]}).join(' ');
+          $('#gf',box).innerHTML=msg('ok','Built it! <b>'+esc(s)+(title.indexOf('QUESTION')>-1?'?':'.')+'</b>')+'<div class="row"><button class="btn sm" id="nx">NEXT</button></div>';
+          $('#nx',box).onclick=function(){k++;draw()};
+        }
+      }else{
+        var need=roles[it[placed][1]];shakeEl(b);
+        S.log.order.push({item:title+': '+it.map(function(c){return c[0]}).join(' | ')+' (tapped "'+b.textContent+'")'});save();
+        $('#gf',box).innerHTML=msg('no',(placed===0&&need.first)?need.first:need.h);
+      }
+    }});
+  }
+  draw();
+}
+
+/* ---------- reusable: typed gaps ---------- */
+function gapBlock(box,items,tag){
+  var done=0;
+  box.innerHTML='<div id="gl"></div><p class="note" id="gc">0 of '+items.length+' done</p>';
+  var gl=box.querySelector('#gl');
+  gl.innerHTML=items.map(function(it,i){
+    return '<div class="qitem'+(i===0?' first':'')+'" data-i="'+i+'"><div class="q" style="font-size:19px">'+(i+1)+'. '+esc(it.pre)+' <input class="inp inl ans" aria-label="Gap '+(i+1)+'"> '+esc(it.post)+'</div><div class="hint hh"></div><div class="row" style="margin-top:4px"><button class="btn sm chk">CHECK</button></div><div class="fb"></div></div>'}).join('');
+  $$('.qitem',gl).forEach(function(row){
+    var it=items[+row.dataset.i],a=$('.ans',row),att=0,over=false;noAssist(a);
+    function check(){
+      if(over)return;var typed=norm(a.value);if(!typed){$('.fb',row).innerHTML=msg('info','Type a word first.');return}
+      if(it.ans.indexOf(typed)>-1){a.classList.add('good');a.readOnly=true;win(att===0?2:1);fin(true)}
+      else{att++;a.classList.add('bad');
+        if(att>=2){S.log.spell.push({v1:tag+' '+(+row.dataset.i+1),form:'gap',typed:typed,ans:it.ans[0]});save();a.value=it.ans[0];a.readOnly=true;fin(false)}
+        else{$('.hh',row).innerHTML=letterHint(typed,it.ans[0]);$('.fb',row).innerHTML=msg('no','Close. Fix the red letters.')}}
+    }
+    function fin(ok){over=true;done++;$('.chk',row).remove();$('.hh',row).innerHTML='';box.querySelector('#gc').textContent=done+' of '+items.length+' done';
+      $('.fb',row).innerHTML=msg(ok?'ok':'info',(ok?'Correct! ':'The word is shown. ')+esc(it.why))}
+    $('.chk',row).onclick=check;onEnter(a,check);
+  });
+}
+
+/* ---------- reusable: free writing with checklist ---------- */
+function writeTask(box,id,prompt,tip,min,extra,rows){
+  var passed=false;
+  box.innerHTML='<p class="q">'+prompt+'</p><p class="note">'+tip+'</p><textarea class="ta" style="min-height:'+(rows||110)+'px" aria-label="Your answer"></textarea><p class="note wcn">0 words</p><div class="row" style="margin-top:6px"><button class="btn sm">CHECK</button></div><div class="res"></div>';
+  var ta=$('.ta',box);noAssist(ta);if(S.sent[id])ta.value=S.sent[id];
+  function run(){
+    var t=ta.value.trim(),low=t.toLowerCase(),toks=t.split(/\s+/).filter(Boolean);
+    $('.wcn',box).textContent=toks.length+' words (goal: '+min+'+)';
+    var res=[{ok:/^[A-Z]/.test(t),label:'Starts with a capital letter'},{ok:/[.!?]$/.test(t),label:'Ends with . ! or ?'},{ok:toks.length>=min,label:'At least '+min+' words'}];
+    (extra||[]).forEach(function(x){res.push({ok:x.t(t,low),label:x.l})});return res;
+  }
+  ta.addEventListener('input',function(){$('.wcn',box).textContent=ta.value.trim().split(/\s+/).filter(Boolean).length+' words (goal: '+min+'+)'});
+  $('.btn',box).onclick=function(){
+    var res=run(),ok=res.every(function(x){return x.ok});S.sent[id]=ta.value.trim();save();
+    $('.res',box).innerHTML=lightsHtml(res)+(ok?msg('ok','Excellent! Read it once more: check spelling and word order.'):msg('info','Fix the grey boxes, then check again.'));
+    if(ok&&!passed){passed=true;win(3)}
+  };
+}
+
+/* ---------- intro ---------- */
+function start(){
+  stopAll();entered=false;tabs();
+  var falls=[['T',6,'8%','0s'],['L',6,'24%','-2s'],['S',6,'62%','-4s'],['J',6,'80%','-1s'],['I',6,'46%','-3s']].map(function(f){return '<div class="fall" style="left:'+f[2]+';animation-delay:'+f[3]+'">'+mino(f[0],18)+'</div>'}).join('');
+  var back=S.score>0;
+  stage.innerHTML='<section class="card hero">'+falls+
+  '<div class="head">'+mino('I',16)+mino('O',16)+mino('T',16)+'</div>'+
+  '<h1 style="font-size:24px;margin:18px 0 8px;color:var(--c2)">THE BEAUTY OF STORIES</h1>'+
+  '<p style="font-size:19px;max-width:38ch">Build confidence telling stories about your experiences, routines, beauty rituals and feelings. Learn how to put the past into clear, natural English sentences.</p>'+
+  '<div class="fld" style="margin:20px 0 6px"><label for="nm" style="font-family:var(--display);font-size:11px;color:var(--c1)">YOUR NAME, STUDENT NAME</label><input id="nm" class="inp" value="'+esc(S.name||'')+'" maxlength="24" placeholder="Your name" style="margin-top:10px"></div>'+
+  '<div class="row"><button class="btn" id="go">'+(back?'CONTINUE':'START')+'</button></div></section>'+
+  '<section class="card"><h3>HOW TO PLAY</h3><div class="cols">'+
+  '<div class="mini" style="--bc:var(--c1)"><p><b>Notice, then practise.</b> Each level gives you a small rule, then practice.</p></div>'+
+  '<div class="mini" style="--bc:var(--c2)"><p><b>Whole sentences.</b> Short answers are fine in real life, but here we practise full ones.</p></div>'+
+  '<div class="mini" style="--bc:var(--c3)"><p><b>Mistakes help us learn.</b> Every wrong answer explains why. Small steps build confidence.</p></div></div></section>';
+  var nm=$('#nm');noAssist(nm);nm.setAttribute('autocapitalize','words');nm.focus();
+  function st(){S.name=nm.value.trim()||'Player';entered=true;save();toast('WELCOME, '+S.name.toUpperCase(),'info');go(0)}
+  $('#go').onclick=st;onEnter(nm,st);
+}
+
+/* ---------- LEVEL 1: words ---------- */
+function L1(){
+  stage.innerHTML='<section class="card"><div class="head">'+mino('I',12)+'<h2>LEVEL 1: BEAUTY & SELF-CARE WORDS</h2></div>'+
+  '<p>Useful words for beauty, self-care and everyday experiences. Read each example aloud, then make it personal. For each group: tap an <b>English</b> word, then its <b>Romanian</b> meaning. After each match you see the word inside a real sentence. Read that sentence aloud.</p></section>'+
+  '<div id="vg"></div>'+nextCard('NEXT: TALKING ABOUT THE PAST',1);
+  var vg=$('#vg');
+  VOCAB.forEach(function(g,gi){
+    var sec=document.createElement('section');sec.className='card';
+    sec.innerHTML='<h3 style="color:var('+g[1]+')">'+esc(g[0].toUpperCase())+'</h3><p class="note">Tap English, then Romanian. <span class="gc">0 of 4</span></p>'+
+    '<div class="tray" style="margin-top:6px">'+g[2].map(function(w,i){return '<button class="tb en" data-i="'+i+'">'+esc(w[0])+'</button>'}).join('')+'</div>'+
+    '<div class="tray">'+shuffle(g[2].map(function(w,i){return {t:w[1],i:i}})).map(function(w){return '<button class="tb ro" data-i="'+w.i+'">'+esc(w.t)+'</button>'}).join('')+'</div>'+
+    '<div class="vf"></div>';
+    vg.appendChild(sec);
+    var pick=null,n=0;
+    $$('.en',sec).forEach(function(b){b.onclick=function(){if(b.disabled)return;$$('.en',sec).forEach(function(x){x.classList.remove('sel')});pick=b;b.classList.add('sel')}});
+    $$('.ro',sec).forEach(function(b){b.onclick=function(){
+      if(b.disabled)return;if(!pick){$('.vf',sec).innerHTML=msg('info','Tap an English word first.');return}
+      if(pick.dataset.i===b.dataset.i){var w=g[2][+b.dataset.i];
+        pick.disabled=true;b.disabled=true;pick.classList.remove('sel');pick.classList.add('done');b.classList.add('done');pick=null;n++;win(1);
+        sec.querySelector('.gc').textContent=n+' of 4';
+        $('.vf',sec).innerHTML=msg('ok','<b>'+esc(w[0])+'</b> = '+esc(w[1])+'<div class="sl" style="margin-top:8px">'+esc(w[2])+'</div>')}
+      else{shakeEl(b);S.log.vocab.push({item:g[2][+pick.dataset.i][0]+' / '+b.textContent});save();$('.vf',sec).innerHTML=msg('no','Not this meaning. Try again.')}
+    }});
+  });
+  bindGo();
+}
+
+/* ---------- LEVEL 2: word order ---------- */
+function L2(){
+  stage.innerHTML='<section class="card"><div class="head">'+mino('O',12)+'<h2>LEVEL 2: PAST TENSE & SENTENCE BUILDING</h2></div>'+
+  '<p>To talk about finished events, use the past form of the verb. Build a clear sentence with who + past verb + what + where/when:</p>'+
+  '<div class="row" style="margin-top:8px">'+['S','A','V','O','P','T'].map(function(r){var i=ROLE2[r];return '<div class="blk" style="--bc:var('+i.c+')"><small>'+i.n+'</small><b>'+{S:'I / She',A:'always',V:'drinks',O:'coffee',P:'at home',T:'in the morning'}[r]+'</b></div>'}).join('')+'</div>'+
+  '<p class="note" style="margin-top:12px">For positive past sentences, use the past verb: <b>I tried a mask yesterday.</b> For negatives and questions, use <b>did + base verb</b>: I did not try it. Did you try it?</p></section>'+
+  '<section class="card" id="cb"></section><section class="card" id="mc"></section>'+nextCard('NEXT: EXPRESSING FEELINGS',2);
+  chipBuilder($('#cb'),ORDER,ROLE2,'GAME 1: BUILD THE SENTENCE','Sentence');
+  mcBlock($('#mc'),ORDERMC,'Word order','<h3>GAME 2: WHICH ORDER IS CORRECT?</h3><p class="note">Tap the correct sentence.</p>');
+  bindGo();
+}
+
+/* ---------- LEVEL 3: polite ---------- */
+function L3(){
+  stage.innerHTML='<section class="card"><div class="head">'+mino('T',12)+'<h2>LEVEL 3: FEELINGS & NATURAL PHRASES</h2></div>'+
+  '<p>The goal is to make a complete thought, not a perfect complicated sentence. Use these frames to describe what happened and how you felt. Add a reason with because.</p>'+
+  POLITE.map(function(p){return '<div class="frame"><span class="note">'+esc(p[0])+'</span><br><b>'+esc(p[1])+'</b><br><em>'+esc(p[2])+'</em></div>'}).join('')+'</section>'+
+  '<section class="card" id="pm"></section><section class="card" id="pg"><h3>GAME 2: FILL THE FRAME</h3><p class="note">Type the missing word.</p><div id="pgi"></div></section>'+nextCard('NEXT: ASKING ABOUT THE PAST',3);
+  mcBlock($('#pm'),POLMC,'Polite','<h3>GAME 1: CHOOSE THE BEST SENTENCE</h3><p class="note">Which one would you say to a stranger?</p>');
+  gapBlock($('#pgi'),POLGAP,'Polite gap');
+  bindGo();
+}
+
+/* ---------- LEVEL 4: questions ---------- */
+function L4(){
+  stage.innerHTML='<section class="card"><div class="head">'+mino('S',12)+'<h2>LEVEL 4: QUESTIONS ABOUT THE PAST</h2></div>'+
+  '<p>To ask about the past, use <b>did + subject + base verb</b>. With the verb to be, use <b>was / were</b>:</p>'+
+  '<div class="row" style="margin-top:8px">'+['Q','H','S','V','R'].map(function(r){var i=ROLE4[r];return '<div class="blk" style="--bc:var('+i.c+')"><small>'+i.n+'</small><b>'+{Q:'What time',H:'does',S:'the train',V:'leave',R:'?'}[r]+'</b></div>'}).join('')+'</div>'+
+  '<div class="cols"><div class="mini" style="--bc:var(--c2)"><h3>THE HELPER</h3><p>Past questions: <b>Did you enjoy it?</b> / <b>Where did she go?</b> With to be: <b>Was it relaxing?</b></p></div>'+
+  '<div class="mini" style="--bc:var(--c1)"><h3>THE BIG RULE</h3><p>After <b>did</b>, the main verb stays in its base form: <b>Did you like it?</b> not <i>Did you liked it?</i></p></div></div></section>'+
+  '<section class="card" id="qb"></section><section class="card" id="qm"></section>'+nextCard('NEXT: CONNECTING YOUR STORY',4);
+  chipBuilder($('#qb'),QORDER,ROLE4,'GAME 1: BUILD THE QUESTION','Question');
+  mcBlock($('#qm'),QMC,'Questions','<h3>GAME 2: FIND THE CORRECT QUESTION</h3>');
+  bindGo();
+}
+
+/* ---------- LEVEL 5: connectors ---------- */
+function L5(){
+  stage.innerHTML='<section class="card"><div class="head">'+mino('J',12)+'<h2>LEVEL 5: CONNECTING YOUR STORY</h2></div>'+
+  '<p>Short sentences are good. Joined sentences sound fluent. Use these small words as glue:</p>'+
+  CONN.map(function(c){return '<div class="frame"><b>'+esc(c[0])+'</b> <span class="note">('+esc(c[1])+')</span><br><em>'+esc(c[2])+'</em></div>'}).join('')+'</section>'+
+  '<section class="card" id="cm"></section>'+
+  '<section class="card"><h3>GAME 2: WRITE YOUR OWN</h3><p class="note">Write about your real life or your trip. Use the connector shown.</p>'+
+  '<div class="qitem first" id="w1"></div><div class="qitem" id="w2"></div><div class="qitem" id="w3"></div><div class="qitem" id="w4"></div></section>'+nextCard('NEXT: DIALOGUES',5);
+  mcBlock($('#cm'),CONMC,'Connectors','<h3>GAME 1: CHOOSE THE GLUE WORD</h3>');
+  function has(w){return {l:'Uses "'+w+'"',t:function(t,low){return new RegExp('\\b'+w+'\\b').test(low)}}}
+  writeTask($('#w1'),'Connect: because','Talk about a past experience and explain why you felt that way. Use <b>because</b>.','Start with: "I felt happy because ..."',8,[has('because')],80);
+  writeTask($('#w2'),'Connect: but','Describe something you liked and one thing you did not like. Use <b>but</b>.','Example pattern: "I enjoyed ..., but ..."',8,[has('but')],80);
+  writeTask($('#w3'),'Connect: so','Describe what happened and the result. Use <b>so</b>.','Example pattern: "I felt ..., so I ..."',8,[has('so')],80);
+  writeTask($('#w4'),'Connect: first/then/finally','Describe how you got ready for a special occasion. Use <b>first</b>, <b>then</b> and <b>finally</b>.','3 to 4 sentences in the past.',15,[has('first'),has('then'),has('finally')],120);
+  bindGo();
+}
+
+/* ---------- LEVEL 6: dialogues ---------- */
+function L6(){
+  stage.innerHTML='<section class="card"><div class="head">'+mino('Z',12)+'<h2>LEVEL 6: REAL CONVERSATIONS</h2></div>'+
+  '<p>Five situations you may meet. Read the other person, then choose the best thing to say. Afterwards say your lines <b>aloud</b>.</p></section><div id="dl"></div>'+nextCard('NEXT: WRITING',6);
+  DIAL.forEach(function(d,di){
+    var sec=document.createElement('section');sec.className='card';var ni=0;
+    sec.innerHTML='<h3>'+esc(d.t.toUpperCase())+'</h3><div class="chat">'+d.l.map(function(x){
+      if(x[0]==='Y'){var i=ni++;return '<div class="bub me"><small>YOU</small><select data-i="'+i+'" aria-label="Your reply '+(i+1)+'"><option value="">Choose what to say...</option>'+x[1].map(function(o,oi){return '<option value="'+oi+'">'+esc(o)+'</option>'}).join('')+'</select><div class="why note"></div></div>'}
+      return '<div class="bub"><small>'+esc(x[0].toUpperCase())+'</small>'+esc(x[1])+'</div>'}).join('')+'</div><div class="row" style="margin-top:6px"><button class="btn sm">CHECK</button></div><div class="fbx"></div>';
+    $('#dl').appendChild(sec);
+    var ys=d.l.filter(function(x){return x[0]==='Y'});
+    $('.btn',sec).onclick=function(){
+      var ok=0,all=true;
+      $$('select',sec).forEach(function(s){var y=ys[+s.dataset.i];
+        if(s.value===''){all=false;return}
+        if(+s.value===y[2]){ok++;s.classList.remove('bad');s.classList.add('good');$('.why',s.parentNode).textContent=y[3]}
+        else{s.classList.add('bad');$('.why',s.parentNode).textContent='Better: '+y[1][y[2]]+'  ('+y[3]+')';S.log.mc.push({item:'Dialogue "'+d.t+'" line '+(+s.dataset.i+1),typed:y[1][+s.value],ans:y[1][y[2]]})}});
+      if(!all){$('.fbx',sec).innerHTML=msg('info','Choose an answer for every line first.');return}
+      S.dial[d.t]=ok;win(ok);save();
+      $('.fbx',sec).innerHTML=msg(ok===ys.length?'ok':'info',ok+' of '+ys.length+' best answers. '+(ok===ys.length?'Now read your lines aloud.':'Read the green and red lines again, then change your choices and check again.'));
+    };
+  });
+  bindGo();
+}
+
+/* ---------- LEVEL 7: writing ---------- */
+function L7(){
+  stage.innerHTML='<section class="card"><div class="head">'+mino('L',12)+'<h2>LEVEL 7: WRITE</h2></div>'+
+  '<p>Now you build everything alone. Part A: use a new word in your own sentence. Part B: two real messages.</p></section>'+
+  '<section class="card"><h3>PART A: USE THE WORD</h3><p class="note">Write a sentence with the word. Do not copy the example from Level 1. <span id="fc">0 of '+WORDCARDS.length+' done</span></p><div class="words" id="wd" style="margin-top:10px"></div></section>'+
+  '<section class="card"><h3>PART B1: EMAIL TO A HOTEL</h3><div id="e1"></div></section>'+
+  '<section class="card"><h3>PART B2: INTRODUCE YOURSELF</h3><div id="e2"></div></section>'+nextCard('NEXT: SPEAKING',7);
+  var ex={};VOCAB.forEach(function(g){g[2].forEach(function(w){ex[w[0]]=w[2]})});
+  var fd=0;
+  $('#wd').innerHTML=WORDCARDS.map(function(w,i){return '<div class="wc" data-w="'+esc(w)+'"><div class="wd">'+esc(w)+'</div><textarea class="ta" aria-label="Your sentence with '+esc(w)+'" placeholder="Your own sentence..."></textarea><div class="row" style="margin-top:8px"><button class="btn sm">CHECK</button></div><div class="res"></div></div>'}).join('');
+  $$('.wc').forEach(function(card){
+    var w=card.dataset.w,ta=$('.ta',card),passed=false;noAssist(ta);
+    if(S.sent['Word: '+w])ta.value=S.sent['Word: '+w];
+    $('.btn',card).onclick=function(){
+      var t=ta.value.trim(),low=t.toLowerCase(),toks=t.split(/\s+/).filter(Boolean);
+      var res=[{ok:/^[A-Z]/.test(t),label:'Starts with a capital letter'},{ok:/[.!?]$/.test(t),label:'Ends with . ! or ?'},{ok:toks.length>=5,label:'At least 5 words'},{ok:new RegExp('\\b'+w+'\\b').test(low),label:'Uses "'+w+'"'},{ok:norm(t).replace(/[.!?]$/,'')!==norm(ex[w]||'').replace(/[.!?]$/,''),label:'Your own idea (not the example)'}];
+      var ok=res.every(function(x){return x.ok});S.sent['Word: '+w]=t;save();
+      $('.res',card).innerHTML=lightsHtml(res);
+      if(ok&&!passed){passed=true;win(2);fd++;$('#fc').textContent=fd+' of '+WORDCARDS.length+' done';$('.res',card).insertAdjacentHTML('beforeend',msg('ok','Great sentence!'))}
+    };
+  });
+  function has(l,re){return {l:l,t:function(t,low){return re.test(low)}}}
+  writeTask($('#e1'),'Email to hotel','Write about a beauty or self-care experience you had. Say where you went, what you tried, what happened and how you felt.','Use past verbs and at least one feeling: I went ..., I tried ..., I felt ..., because ...',40,[
+    has('Starts with "Dear"',/^dear\b/),has('Says what you have or want (I have / I would like / I\'d like)',/\bi have\b|\bi would like\b|\bi'd like\b|\bi am writing\b/),
+    has('Asks politely (Could you / Is it possible / Would you mind)',/\bcould you\b|\bis it possible\b|\bwould you mind\b|\bcould i\b/),
+    has('Says thank you',/\bthank/),has('Ends with Kind regards / Best regards / Regards',/regards|sincerely/)],220);
+  writeTask($('#e2'),'Introduction','Write 4 to 5 sentences about a memorable day or experience. Explain what happened, who was there and how you felt.','Use at least one: because, but, so. Use past verbs and complete sentences.',35,[
+    has('Uses because / but / so',/\bbecause\b|\bbut\b|\bso\b/),has('Says "I am" or "I\'m"',/\bi am\b|\bi'm\b/),has('Says "I would like to" or "I want to" or "I\'d like to"',/\bwould like to\b|\bwant to\b|\bi'd like to\b/)],180);
+  bindGo();
+}
+
+/* ---------- LEVEL 8: speaking ---------- */
+function L8(){
+  var ti=0;
+  stage.innerHTML='<section class="card"><div class="head">'+mino('T',12)+'<h2>LEVEL 8: SPEAKING WITH CONFIDENCE</h2></div>'+
+  '<p>Choose a situation. You get <b>45 seconds to prepare</b>, then <b>90 seconds to speak</b> out loud. Use the frames. Full sentences, polite phrases, correct order. Your tutor can play the other person.</p><div class="chips" id="tk"></div></section>'+
+  '<section class="card" id="tkc"></section>'+nextCard('NEXT: LISTENING',8);
+  $('#tk').innerHTML=ROLEPLAY.map(function(t,i){return '<button class="chip" data-t="'+i+'" aria-pressed="'+(i===0)+'">'+esc(t.t)+'</button>'}).join('');
+  $$('#tk .chip').forEach(function(c){c.onclick=function(){ti=+c.dataset.t;$$('#tk .chip').forEach(function(x){x.setAttribute('aria-pressed',String(x===c))});draw()}});
+  function draw(){
+    clearInterval(timer);var T=ROLEPLAY[ti],sv=S.speak[ti]||{};
+    $('#tkc').innerHTML='<h3>'+esc(T.t.toUpperCase())+'</h3><p class="q" style="margin-top:12px">'+esc(T.task)+'</p>'+
+    '<div class="mini" style="--bc:var(--c3)"><h3>FRAMES</h3>'+T.frames.map(function(f){return '<p>'+esc(f)+'</p>'}).join('')+'</div>'+
+    '<div class="row"><span class="timer" id="tm">--</span><button class="btn" id="tgo">START (45 s PREP)</button></div><div id="tmsg"></div>'+
+    '<h3 style="margin-top:20px">POINTSS (1 to 5): TEACHER NOTES OR SELF</h3><div class="rate">'+SPEAKCRIT.map(function(c,i){return '<div><label for="r'+i+'">'+c+'</label><select id="r'+i+'"><option value="">-</option>'+[1,2,3,4,5].map(function(n){return '<option value="'+n+'"'+(sv[c]===n?' selected':'')+'>'+n+'</option>'}).join('')+'</select></div>'}).join('')+'</div>'+
+    '<div class="row"><button class="btn alt sm" id="rsv">SAVE POINTSS</button><span class="note" id="rsm"></span></div>';
+    $('#tgo').onclick=function(){
+      var phase=0,left=45;clearInterval(timer);$('#tgo').disabled=true;
+      $('#tm').textContent='PREP 45';$('#tmsg').innerHTML=msg('info','Plan your sentences. Which frames will you use?');
+      timer=setInterval(function(){
+        left--;
+        if(left<=0){
+          if(phase===0){phase=1;left=90;toast('SPEAK NOW!','info');$('#tmsg').innerHTML=msg('ok','Speak now. Full sentences, and add one reason with because.')}
+          else{clearInterval(timer);timer=0;$('#tm').textContent='TIME!';$('#tmsg').innerHTML=msg('info','Time is up. Well done! Score yourself below.');$('#tgo').disabled=false;$('#tgo').textContent='TRY AGAIN';win(3);return}
+        }
+        $('#tm').textContent=(phase===0?'PREP ':'SPEAK ')+left;
+      },1000);
+    };
+    $('#rsv').onclick=function(){
+      var o={};SPEAKCRIT.forEach(function(c,i){var v=+$('#r'+i).value;if(v)o[c]=v});
+      S.speak[ti]=o;save();$('#rsm').textContent='Saved.';
+    };
+  }
+  draw();bindGo();
+}
+
+/* ---------- LEVEL 9: listening ---------- */
+function speakText(text,rate){
+  try{
+    var ss=window.speechSynthesis;if(!ss||typeof SpeechSynthesisUtterance==='undefined')return false;
+    ss.cancel();var u=new SpeechSynthesisUtterance(text);u.lang='en-GB';u.rate=rate;
+    var vs=ss.getVoices(),v=null,i;for(i=0;i<vs.length;i++){if(/en-GB/i.test(vs[i].lang)){v=vs[i];break}}
+    if(!v)for(i=0;i<vs.length;i++){if(/^en/i.test(vs[i].lang)){v=vs[i];break}}
+    if(v)u.voice=v;ss.speak(u);return true;
+  }catch(e){return false}
+}
+function L9(){
+  var plays=0;
+  stage.innerHTML='<section class="card"><div class="head">'+mino('L',12)+'<h2>LEVEL 9: LISTENING</h2></div>'+
+  '<p>Listen to someone talking about a beauty appointment and a recent experience. You can listen <b>three times</b>, then answer.</p>'+
+  '<div class="row"><button class="btn" id="pl">▶ PLAY</button><button class="btn alt" id="sl">PLAY SLOWER</button><button class="btn alt" id="sp">STOP</button><span class="note" id="pc">Played 0 times</span></div><div id="pm"></div></section>'+
+  '<section class="card" id="lmc"></section>'+
+  '<section class="card"><h3>PART 2: WRITE THE MISSING WORDS</h3><p class="note">Listen again and write the word you hear.</p><div class="sl" id="lg" style="font-size:19px;line-height:2.1"></div><div class="row"><button class="btn" id="lgc">CHECK PART 2</button></div><div id="lgr"></div></section>'+
+  '<section class="card"><h3>MORE PRACTICE</h3><p class="note">The voice above is a computer voice. For real recordings try the British Council LearnEnglish listening pages: <a href="https://learnenglish.britishcouncil.org/skills/listening" target="_blank" rel="noopener">learnenglish.britishcouncil.org/skills/listening</a> (opens in a new tab).</p></section>'+nextCard('SEE MY RESULTS',9);
+  function play(r){
+    if(plays>=3){$('#pm').innerHTML=msg('info','You listened three times. Now answer from what you remember.');return}
+    if(!speakText(LSCRIPT,r)){$('#pm').innerHTML=msg('info','This device has no voice. Ask your tutor to read the dialogue aloud.');return}
+    plays++;$('#pc').textContent='Played '+plays+' time'+(plays>1?'s':'');$('#pm').innerHTML='';
+  }
+  $('#pl').onclick=function(){play(0.92)};$('#sl').onclick=function(){play(0.75)};
+  $('#sp').onclick=function(){try{window.speechSynthesis.cancel()}catch(e){}};
+  mcBlock($('#lmc'),LMC.map(function(q){return [q[0],q[1],q[2],'']}),'Listening','<h3>PART 1: CHOOSE THE ANSWER</h3>');
+  var gaps=[],h='';
+  LGAP.forEach(function(row){h+='<p style="margin:6px 0">';row.forEach(function(p,pi){if(pi%2===0)h+=esc(p)+' ';else{h+='<input class="inp inl lg" data-g="'+gaps.length+'" aria-label="Missing word '+(gaps.length+1)+'"> ';gaps.push(p)}});h+='</p>'});
+  $('#lg').innerHTML=h;$$('.lg').forEach(noAssist);
+  $('#lgc').onclick=function(){
+    var ok=0;
+    gaps.forEach(function(a,n){var inp=$('.lg[data-g="'+n+'"]'),typed=norm(inp.value);
+      if(typed===a){ok++;win(2);inp.classList.add('good');inp.readOnly=true}
+      else{inp.classList.add('bad');S.log.spell.push({v1:a,form:'listening gap',typed:typed,ans:a})}});
+    $('#lgc').disabled=true;S.listen.gap=ok;save();
+    $('#lgr').innerHTML=msg(ok===gaps.length?'ok':'info','Part 2: '+ok+' of '+gaps.length+'.'+(ok<gaps.length?' Correct words: '+gaps.join(', ')+'.':'')+'<div class="row"><button class="btn alt sm" id="scr">SHOW THE SCRIPT</button></div><div id="sc"></div>');
+    $('#scr').onclick=function(){$('#sc').innerHTML='<div class="sl" style="margin-top:10px">'+esc(LSCRIPT)+'</div>'};
+  };
+  bindGo();
+}
+
+/* ---------- report + results ---------- */
+function report(){
+  var L=S.log,o=[];
+  o.push('THE BEAUTY OF STORIES report for '+(S.name||'student')+' ('+new Date().toLocaleDateString('en-GB')+')');
+  o.push('Score '+S.score+', lines cleared '+S.lines);
+  var dk=Object.keys(S.dial);
+  o.push('Dialogues (best answers): '+(dk.length?dk.map(function(k){return k+' '+S.dial[k]+'/3'}).join('; '):'not done'));
+  o.push('Listening part 2: '+(S.listen.gap!==undefined?S.listen.gap+'/3':'not done'));
+  var sk=Object.keys(S.speak);
+  o.push('Speaking scores: '+(sk.length?sk.map(function(k){var v=S.speak[k];return ROLEPLAY[+k].t+' ('+Object.keys(v).map(function(c){return c+' '+v[c]}).join(', ')+')'}).join('; '):'not scored'));
+  o.push('');o.push('WORD ORDER / QUESTION BUILDING MISTAKES, '+L.order.length+':');
+  L.order.length?L.order.forEach(function(e){o.push('- '+e.item)}):o.push('- none');
+  o.push('');o.push('MULTIPLE CHOICE MISTAKES, '+L.mc.length+':');
+  L.mc.length?L.mc.forEach(function(e){o.push('- '+e.item+' | chose "'+e.typed+'", correct "'+e.ans+'"')}):o.push('- none');
+  o.push('');o.push('SPELLING, '+L.spell.length+':');
+  L.spell.length?L.spell.forEach(function(e){o.push('- '+e.v1+' ['+e.form+']: wrote "'+e.typed+'", correct "'+e.ans+'"')}):o.push('- none');
+  o.push('');o.push('VOCABULARY MATCHES MISSED, '+L.vocab.length+':');
+  L.vocab.length?L.vocab.forEach(function(e){o.push('- '+e.item)}):o.push('- none');
+  o.push('');o.push('WRITING:');
+  var k=Object.keys(S.sent);k.length?k.forEach(function(x){if(S.sent[x])o.push(x+': '+S.sent[x])}):o.push('- none yet');
+  return o.join('\n');
+}
+function copyBox(id,btn){
+  var ta=$(id);
+  btn.onclick=function(){
+    function fb(){ta.focus();ta.select();toast('SELECTED. COPY IT NOW','info')}
+    try{navigator.clipboard.writeText(ta.value).then(function(){toast('COPIED!')},fb)}catch(e){fb()}
+  };
+}
+function L10(){
+  var L=S.log,errs=L.spell.length+L.order.length+L.mc.length,st=errs<=8?3:errs<=22?2:1;
+  var oc=L.order.length,goals=[];
+  if(oc>2)goals.push('Practise the sentence stack: who, past verb, what, where, when.');
+  if(L.mc.length>6)goals.push('Review the polite frames and connectors from Levels 3 and 5.');
+  if(L.spell.length>3)goals.push('Spelling: check the words you missed in the report.');
+  if(!goals.length)goals.push('Strong work. Next time: longer answers with because, but and so.');
+  stage.innerHTML='<section class="card"><div class="head">'+mino('I',12)+'<h2>RESULTS</h2></div>'+
+  '<p class="stars" aria-label="'+st+' stars">'+'★'.repeat(st)+'☆'.repeat(3-st)+'</p>'+
+  '<p class="big" style="margin:10px 0">'+esc(S.name||'Player')+': '+S.score+' points, '+S.lines+' lines.</p>'+
+  '<h3 style="margin-top:14px">MY NEXT STEPS</h3><ul>'+goals.map(function(g){return '<li>'+esc(g)+'</li>'}).join('')+
+  '<li>Every day this week: say 3 polite requests out loud (Could I have ...? Would you mind ...?).</li></ul>'+
+  '<div class="row"><button class="btn alt" data-go="1">PRACTISE MORE</button></div></section>'+
+  '<section class="card"><h3>SHOW THIS TO YOUR TEACHER NOTES</h3><textarea class="rep" id="rp" readonly aria-label="Report"></textarea><div class="row"><button class="btn" id="cp">COPY REPORT</button></div></section>';
+  $('#rp').value=report();copyBox('#rp',$('#cp'));bindGo();
+}
+
+/* ---------- tutor panel ---------- */
+function teacher(){
+  var h='<aside class="teacher"><h3>LESSON FLOW (about 75 minutes, adjust freely)</h3><ul>'+
+  '<li>Level 1 (10 min): vocabulary. Ask her to personalise each example with a real product or experience.</li>'+
+  '<li>Level 2 (15 min): past tense. Contrast regular and irregular verbs, then practise positive, negative and question forms.</li>'+
+  '<li>Level 3 (10 min): feeling frames. Ask her to complete each phrase with a real emotion and a reason.</li>'+
+  '<li>Level 4 (10 min): past questions. The big rule: after did, the verb is in its base form.</li>'+
+  '<li>Level 5 (10 min): connectors. She tells a short story with because, but, so and then.</li>'+
+  '<li>Level 6 (10 min): dialogues. After she chooses, read them as a pair, then ask follow-up questions about her own experience.</li>'+
+  '<li>Levels 7 to 9: writing can be homework. Speaking works best live with you as the partner. Listening: read the script aloud if the computer voice fails.</li></ul>'+
+  '<h3>LISTENING SCRIPT</h3><div class="sl">'+esc(LSCRIPT)+'</div>'+
+  '<h3>EDIT THE LISTS</h3><p class="note">All lesson content is editable at the top of the script. Personalise the beauty examples to products, routines and experiences she genuinely enjoys.</p>'+
+  '<h3>LIVE REPORT</h3><textarea class="rep" id="trp" readonly aria-label="Live report"></textarea><div class="row"><button class="btn" id="tcp">COPY REPORT</button><button class="btn alt" id="rst">RESET GAME</button></div><div id="rsm"></div></aside>';
+  $('#tpanel').innerHTML=h;$('#trp').value=report();copyBox('#trp',$('#tcp'));
+  $('#rst').onclick=function(){
+    $('#rsm').innerHTML=msg('no','This clears score and answers on this device. <button class="btn alt sm" id="rok" style="margin-left:8px">YES, RESET</button>');
+    $('#rok').onclick=function(){S=fresh();save();hud();$('#tpanel').hidden=true;$('#tbtn').setAttribute('aria-expanded','false');start()};
+  };
+}
+$('#tbtn').onclick=function(){
+  var p=$('#tpanel'),open=p.hidden;
+  if(open){teacher();p.hidden=false}else{p.hidden=true}
+  this.setAttribute('aria-expanded',String(open));
+};
+
+hud();start();
+})();
+</script>
+</body>
+</html>
